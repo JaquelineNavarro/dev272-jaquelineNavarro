@@ -1,52 +1,63 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Pressable,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
-// This is the home screen (route "/").
-// Week 1: change the two lines marked 👇, run the app, commit, push.
+import { Order, orders } from "@/data/orders";
+import { styles } from "@/styles/indexStyles";
+import { useState } from "react";
+
 export default function Index() {
-  // 👇 Week 1: replace with your name
-  const studentName = "Jaqueline Navarro";
-  // 👇 Week 1: replace with something you want to build this quarter
-  const appIdea = "an app to help my parents manage their business and keep track of their customers food orders";
+  
+  return (
+    <FlatList
+      data={orders}
+      keyExtractor={(o) => o.id}
+      renderItem={({item}) => <OrderRow order={item} />}
+      ListHeaderComponent={<Header />}
+      contentContainerStyle={styles.list}
+    />
+  );
+}
 
-  const todayDay ="September, 22, 2026. The Hobbit day!.";
+function Header() {
+  const [query, setQuery] = useState<string>("");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>DEV 272 · Mobile Application Development</Text>
-      <Text style={styles.body}>Hello, I am {studentName}.</Text>
-      <Text style={styles.body}>This quarter I want to build {appIdea}.</Text>
-      <Text style={styles.date}>Today is {todayDay}</Text>
-      <Text style={styles.hint}>Edit src/app/index.tsx to change this screen.</Text>
+      <Text style={styles.title}>Customer Orders</Text>
+      <View style={styles.row}>
+        <TextInput
+          style={styles.input}
+          placeholder="Search clients"
+          value={query}
+          onChangeText={setQuery}
+          autoCapitalize="none"
+          returnKeyType="search"
+          placeholderTextColor="#938a8a" />
+        <Pressable style={styles.button} onPress={() => console.log(query)}>
+          <Text style={styles.button}>Go</Text>
+        </Pressable>
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 24,
-    gap: 12,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  body: {
-    fontSize: 16,
-    textAlign: "center",
-  },
-  hint: {
-    marginTop: 24,
-    fontSize: 12,
-    color: "#6b7280",
-    textAlign: "center",
-  },
-  date: {
-    fontSize: 20,
-    color: "#D4AF37",
-    textAlign: "center",
-  },
-});
+function OrderRow({ order }: { order: Order }) {
+
+  return (
+  <View style={styles.card}>
+    <View style={styles.cardMain}>
+      <Text style={styles.cardTitle}>{order.customerName}</Text>
+      <Text style={styles.cardSub}>{order.dish}</Text>
+    </View>
+    <Text style={styles.cardSub}>
+      {order.quantity}, {order.status}
+      </Text>
+  </View>
+  );
+}
+
