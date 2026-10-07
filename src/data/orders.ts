@@ -86,7 +86,7 @@ export const orders: Order []= [
   dish: "Tacos",
   quantity: 4,
   filling: "Suadero, Cabeza",
-  status: "Ready"
+  status: "Cancelled"
 },
 
 {

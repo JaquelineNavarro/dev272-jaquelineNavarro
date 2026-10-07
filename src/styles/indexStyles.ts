@@ -63,6 +63,15 @@ export const styles = StyleSheet.create({
     },
 
 card: {
-    
+  padding: 12,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+},
+
+quantity: {
+    width: 100,
+    textAlign: "center",
 }
+
 });

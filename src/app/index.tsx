@@ -11,7 +11,7 @@ import { styles } from "@/styles/indexStyles";
 import { useState } from "react";
 
 export default function Index() {
-  
+
   return (
     <FlatList
       data={orders}
@@ -39,7 +39,7 @@ function Header() {
           returnKeyType="search"
           placeholderTextColor="#938a8a" />
         <Pressable style={styles.button} onPress={() => console.log(query)}>
-          <Text style={styles.button}>Go</Text>
+          <Text style={styles.buttonText}>Go</Text>
         </Pressable>
       </View>
     </View>
@@ -54,8 +54,11 @@ function OrderRow({ order }: { order: Order }) {
       <Text style={styles.cardTitle}>{order.customerName}</Text>
       <Text style={styles.cardSub}>{order.dish}</Text>
     </View>
+    <Text style={styles.quantity}>
+      {order.quantity}
+      </Text>
     <Text style={styles.cardSub}>
-      {order.quantity}, {order.status}
+      {order.status}
       </Text>
   </View>
   );
