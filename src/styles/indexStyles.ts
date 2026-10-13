@@ -16,16 +16,7 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
   },
-  body: {
-    fontSize: 16,
-    textAlign: "center",
-  },
-  hint: {
-    marginTop: 24,
-    fontSize: 12,
-    color: "#6b7280",
-    textAlign: "center",
-  },
+ 
   row: {
     flexDirection: "row",
     gap: 8,
@@ -34,10 +25,11 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#f8b88a",
-    color: "#5c5c5c",
+    borderColor: "#A63B0A",
+    color: "#595959",
     borderRadius: 8,
     padding: 10,
+    backgroundColor:"#FFFFFF",
   },
   button: {
     backgroundColor: "#c5460c",
@@ -55,22 +47,33 @@ export const styles = StyleSheet.create({
     },
 
   cardTitle: { 
-    fontWeight: "600" 
+    textAlign:"center",
+    fontWeight:"bold", 
     },
 
   cardSub: { 
-    color: "#000000" 
+    color: "#000000", 
     },
 
 card: {
   padding: 12,
-  flexDirection: "row",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: 10,
+  backgroundColor:"#FFFFFF",
+  borderRadius:3,
+  borderWidth:1,
+},
+
+cardRow: {
+  flexDirection:"row",
   justifyContent: "space-between",
   alignItems: "center",
 },
 
 quantity: {
-    width: 100,
+    width: 35,
     textAlign: "center",
 }
 
