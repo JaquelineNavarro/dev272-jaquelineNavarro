@@ -1,24 +1,37 @@
 import { FlatList, Pressable, Text, TextInput, View } from "react-native";
-
-import { Order, orders } from "@/data/orders";
+import { Order } from "@/data/orders";
+import { useOrders } from "@/context/orderContext";
 import { styles } from "@/styles/indexStyles";
 import { useState } from "react";
+import { router } from "expo-router";
 
 export default function Index() {
+  const { allOrders } = useOrders();
+  const [query, setQuery] = useState("");
+  const filteredOrders = allOrders.filter((order) => {
+    const customerName = order.customerName.toLowerCase();
+    const search = query.toLowerCase();
+
+    return customerName.includes(search);
+  });
   return (
     <FlatList
-      data={orders}
+      data={filteredOrders}
       keyExtractor={(o) => o.id}
       renderItem={({ item }) => <OrderRow order={item} />}
-      ListHeaderComponent={<Header />}
+      ListHeaderComponent={<Header query={query} setQuery={setQuery} />}
       contentContainerStyle={styles.list}
     />
   );
 }
 
-function Header() {
-  const [query, setQuery] = useState<string>("");
-
+function Header({
+  query,
+  setQuery,
+}: {
+  query: string;
+  setQuery: (value: string) => void;
+}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Customer Orders</Text>
@@ -32,7 +45,7 @@ function Header() {
           returnKeyType="search"
           placeholderTextColor="#595959"
         />
-        <Pressable style={styles.button} onPress={() => console.log(query)}>
+        <Pressable style={styles.button} onPress={() => setQuery("")}>
           <Text style={styles.buttonText}>Go</Text>
         </Pressable>
       </View>
@@ -42,7 +55,10 @@ function Header() {
 
 function OrderRow({ order }: { order: Order }) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      style={styles.card}
+      onPress={() => router.push(`/orders/${order.id}`)}
+    >
       <Text style={styles.cardTitle}>{order.customerName}</Text>
       <View style={styles.cardRow}>
         <View style={styles.cardMain}>
@@ -56,9 +72,11 @@ function OrderRow({ order }: { order: Order }) {
           </Text>
         </View>
         <Text style={styles.quantity}>{order.quantity}</Text>
-        <Text style={[styles.cardSub,{color: getStatusColor (order.status)},]}>{order.status}</Text>
+        <Text style={[styles.cardSub, { color: getStatusColor(order.status) }]}>
+          {order.status}
+        </Text>
       </View>
-    </View>
+    </Pressable>
   );
 
   function getStatusColor(status: string) {
@@ -70,8 +88,7 @@ function OrderRow({ order }: { order: Order }) {
     }
     if (status === "Pending") {
       return "#92400E";
-    } 
-    return "#000000"
-
+    }
+    return "#000000";
   }
 }

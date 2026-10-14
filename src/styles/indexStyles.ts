@@ -75,6 +75,54 @@ cardRow: {
 quantity: {
     width: 35,
     textAlign: "center",
-}
+},
+
+containerOR: {
+    flex:1,
+    alignItems: "center",
+    justifyContent: "center", 
+},
+
+readyBtn: {
+  backgroundColor: "#166534",
+  alignItems:"center",
+  padding: 15,
+  marginTop: 20,
+  borderRadius:20,
+},
+
+readyBtnTxt: {
+  color: "#ffffff",
+  fontWeight:"bold",
+},
+
+orderDetailsContainer: {
+  flex: 1,
+  backgroundColor: "#F5F5F5",
+  padding: 20,
+},
+
+detailCustomerCard: {
+  backgroundColor: "#FFFFFF",
+  padding: 20,
+  borderRadius: 10,
+  marginBottom: 20,
+},
+
+orderReadyCard:{
+  backgroundColor:"#E8F5E9",
+  padding: 15,
+  margin: 10,
+  borderWidth:1,
+  borderColor:"#166534",
+  borderRadius: 8,
+},
+
+orderReadyText: {
+  fontSize: 15,
+  marginBottom: 10,
+},
+
+
 
 });
