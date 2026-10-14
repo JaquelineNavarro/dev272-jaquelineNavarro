@@ -57,7 +57,12 @@ function OrderRow({ order }: { order: Order }) {
   return (
     <Pressable
       style={styles.card}
-      onPress={() => router.push(`/orders/${order.id}`)}
+      onPress={() =>
+        router.push({
+          pathname: "/orders/[id]",
+          params: { id: order.id },
+        })
+      }
     >
       <Text style={styles.cardTitle}>{order.customerName}</Text>
       <View style={styles.cardRow}>

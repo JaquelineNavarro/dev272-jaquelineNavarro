@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useOrders } from "@/context/orderContext";
 import { styles } from "@/styles/indexStyles";
 
@@ -17,8 +17,8 @@ export default function OrderDetails() {
   }
   return (
     <View style={styles.orderDetailsContainer}>
-      <View style ={styles.detailCustomerCard}>
-        <Text>Customer: {order.customerName}</Text>
+      <Stack.Screen options={{ title: order.customerName }} />
+      <View style={styles.detailCustomerCard}>
         <Text>Dish: {order.dish}</Text>
         <Text>Filling: {order.filling}</Text>
         <Text>Quantity: {order.quantity}</Text>
