@@ -50,9 +50,7 @@ function Header({
           <Text style={styles.buttonText}>Go</Text>
         </Pressable>
       </View>
+      
     </View>
   );
 }
-
-
-
