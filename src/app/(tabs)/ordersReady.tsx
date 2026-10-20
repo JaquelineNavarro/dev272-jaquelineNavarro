@@ -1,6 +1,7 @@
 import { View, Text, FlatList } from "react-native";
 import { styles } from "@/styles/indexStyles";
 import { useOrders } from "@/context/orderContext";
+import ReadyOrderCard from "../../components/readyOrderCard";
 
 
 export default function OrdersReady() {
@@ -10,13 +11,7 @@ export default function OrdersReady() {
     <FlatList
       data={readyOrders}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <View style={styles.orderReadyCard}>
-          <Text style={styles.orderReadyText}>Customer: {item.customerName}</Text>
-          <Text style={styles.orderReadyText}>Dish: {item.dish}</Text>
-          <Text style={styles.orderReadyText}>Status: {item.status}</Text>
-        </View>
-      )}
+      renderItem={({ item }) => <ReadyOrderCard order={item} />}
     />
   );
 }

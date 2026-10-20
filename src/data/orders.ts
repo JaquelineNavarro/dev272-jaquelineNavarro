@@ -82,7 +82,7 @@ export const orders: Order []= [
 
 {
   id: "9",
-  customerName: "Cristian Farias",
+  customerName: "Maria Pedraza",
   dish: "Tacos",
   quantity: 4,
   filling: "Suadero, Cabeza",

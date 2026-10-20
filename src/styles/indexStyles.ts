@@ -85,7 +85,9 @@ containerOR: {
 
 readyBtn: {
   backgroundColor: "#166534",
+  flex:1,
   alignItems:"center",
+  justifyContent:"center",
   padding: 15,
   marginTop: 20,
   borderRadius:20,
@@ -121,6 +123,27 @@ orderReadyCard:{
 orderReadyText: {
   fontSize: 15,
   marginBottom: 10,
+},
+
+cancelBtn: {
+  backgroundColor: "#b91c1c",
+  flex:1,
+  justifyContent:"center",
+  alignItems:"center",
+  padding: 15,
+  marginTop: 20,
+  borderRadius:20,
+},
+
+cancelBtnTxt: {
+  color: "#ffffff",
+  fontWeight:"bold",
+},
+
+btnsContainer: {
+  flexDirection: "row",
+  display: "flex",
+  gap: 10,
 },
 
 

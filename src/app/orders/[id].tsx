@@ -5,7 +5,7 @@ import { styles } from "@/styles/indexStyles";
 
 export default function OrderDetails() {
   const { id } = useLocalSearchParams();
-  const { allOrders, markAsReady } = useOrders();
+  const { allOrders, markAsReady, markAsCancel } = useOrders();
   const order = allOrders.find((item) => item.id === id);
 
   if (!order) {
@@ -23,14 +23,25 @@ export default function OrderDetails() {
         <Text>Filling: {order.filling}</Text>
         <Text>Quantity: {order.quantity}</Text>
         <Text>Status: {order.status}</Text>
-        {order.status === "Pending" && (
-          <Pressable
-            style={styles.readyBtn}
-            onPress={() => markAsReady(order.id)}
-          >
-            <Text style={styles.readyBtnTxt}>Mark as Ready</Text>
-          </Pressable>
-        )}
+        <View style={styles.btnsContainer}>
+          {order.status === "Pending" && (
+            <Pressable
+              style={styles.readyBtn}
+              onPress={() => markAsReady(order.id)}
+            >
+              <Text style={styles.readyBtnTxt}>Mark as Ready</Text>
+            </Pressable>
+          )}
+
+          {order.status === "Pending" && (
+            <Pressable
+              style={styles.cancelBtn}
+              onPress={() => markAsCancel(order.id)}
+            >
+              <Text style={styles.cancelBtnTxt}>Cancel Order</Text>
+            </Pressable>
+          )}
+        </View>
       </View>
     </View>
   );
