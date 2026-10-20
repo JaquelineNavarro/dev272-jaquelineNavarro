@@ -145,7 +145,74 @@ btnsContainer: {
   display: "flex",
   gap: 10,
 },
+dishButtonsContainer: {
+  flexDirection: "row",
+  gap: 8,
+},
 
+dishButton: {
+  flex: 1,
+  backgroundColor: "#EEEEEE",
+  paddingVertical: 16,
+  paddingHorizontal: 6,
+  borderRadius: 10,
+  alignItems: "center",
+  justifyContent: "center",
+},
 
+selectedDishButton: {
+  backgroundColor: "#D4A373",
+},
+
+dishButtonText: {
+  fontSize: 14,
+  fontWeight: "500",
+  color: "#333333",
+  textAlign: "center",
+},
+
+newOrderContainer: {
+  flex: 1,
+  padding: 20,
+  backgroundColor: "#F8F7F5",
+},
+
+newOrderTitle: {
+  fontSize: 26,
+  fontWeight: "bold",
+  marginBottom: 10,
+  textAlign:"center",
+},
+
+formLabel: {
+  fontSize: 16,
+  fontWeight: "600",
+  marginTop: 16,
+  marginBottom: 8,
+},
+
+formInput: {
+  backgroundColor: "#FFFFFF",
+  borderWidth: 1,
+  borderColor: "#DDDDDD",
+  borderRadius: 10,
+  padding: 14,
+  fontSize: 16,
+  color: "#333333",
+},
+
+saveOrderBtn: {
+  backgroundColor: "#A63B0A",
+  padding: 16,
+  borderRadius: 10,
+  alignItems: "center",
+  marginTop: 30,
+}, 
+
+saveOrderBtnTxt: {
+  color: "#FFFFFF",
+  fontSize: 16,
+  fontWeight: "bold",
+},
 
 });

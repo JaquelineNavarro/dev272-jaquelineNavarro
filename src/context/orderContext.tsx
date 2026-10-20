@@ -5,6 +5,7 @@ type OrdersContextType = {
   allOrders: Order[];
   markAsReady: (id: string) => void;
   markAsCancel: (id: string) => void;
+  addOrder: (newOrder: Order) => void;
 };
 
 const OrdersContext = createContext<OrdersContextType | undefined>(undefined);
@@ -33,8 +34,12 @@ export function OrdersProvider({ children }: { children: React.ReactNode }) {
       }),
     );
   }
+
+  function addOrder(newOrder: Order) {
+    setAllOrders((currentOrders) => [...currentOrders, newOrder]);
+  }
   return (
-    <OrdersContext.Provider value={{ allOrders, markAsReady, markAsCancel }}>
+    <OrdersContext.Provider value={{ allOrders, markAsReady, markAsCancel, addOrder}}>
       {children}
     </OrdersContext.Provider>
   );

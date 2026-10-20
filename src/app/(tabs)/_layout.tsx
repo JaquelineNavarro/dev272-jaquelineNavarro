@@ -1,5 +1,6 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
-
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Entypo from '@expo/vector-icons/Entypo';
+import Foundation from '@expo/vector-icons/Foundation';
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
@@ -10,7 +11,7 @@ export default function TabLayout() {
         options={{
           title: "Orders",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="receipt-outline" color={color} size={size} />
+            <Foundation name="clipboard-notes" size={24} color="black" />
           ),
         }}
       />
@@ -19,11 +20,21 @@ export default function TabLayout() {
         options={{
           title: "Orders Ready",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="checkmark-circle-outline" color={color} size={size} />
+            <FontAwesome name="check-square" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="addOrder"
+        options={{
+          title: "New Order",
+          tabBarIcon: ({ color, size }) => (
+           <Entypo name="new-message" size={24} color="black" />
           ),
         }}
       />
 
     </Tabs>
   );
+  
 }
