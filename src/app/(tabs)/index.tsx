@@ -1,26 +1,68 @@
-import { FlatList, Pressable, Text, TextInput, View } from "react-native";
-import { Order } from "@/data/orders";
-import { useOrders } from "@/context/orderContext";
+import { fetchOrders } from "@/api/orders";
+import { useSearch } from "@/context/searchContext";
 import { styles } from "@/styles/indexStyles";
-import { useState } from "react";
-import { router } from "expo-router";
+import { useQuery } from "@tanstack/react-query";
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import OrderRow from "../../components/orderRow";
 
 export default function Index() {
-  const { allOrders } = useOrders();
-  const [query, setQuery] = useState("");
-  const filteredOrders = allOrders.filter((order) => {
+  const {
+    data: orders,
+    isPending,
+    isError,
+    error,
+    refetch,
+    isRefetching,
+  } = useQuery({
+    queryKey: ["orders"],
+    queryFn: fetchOrders,
+  });
+  const { query, setQuery, hydrated } = useSearch();
+  const filteredOrders = (orders ?? []).filter((order) => {
     const customerName = order.customerName.toLowerCase();
     const search = query.toLowerCase();
 
     return customerName.includes(search);
   });
+
+  if (isPending || !hydrated) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" />
+        <Text>Loading orders...</Text>
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View style={styles.container}>
+        <Text>{error.message}</Text>
+        <Pressable onPress={() => refetch()}>
+          <Text>Try again</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={filteredOrders}
       keyExtractor={(o) => o.id}
       renderItem={({ item }) => <OrderRow order={item} />}
       ListHeaderComponent={<Header query={query} setQuery={setQuery} />}
+      ListEmptyComponent={<Text>No orders yet.</Text>}
+      refreshControl={
+        <RefreshControl refreshing={isRefetching} onRefresh={() => refetch()} />
+      }
       contentContainerStyle={styles.list}
     />
   );
@@ -50,7 +92,6 @@ function Header({
           <Text style={styles.buttonText}>Go</Text>
         </Pressable>
       </View>
-      
     </View>
   );
 }

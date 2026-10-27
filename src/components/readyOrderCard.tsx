@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { Order } from "@/data/orders";
+import type { Order } from "@/api/orders";
 import { styles } from "@/styles/indexStyles";
 
 export default function ReadyOrderCard({ order }: { order: Order }) {

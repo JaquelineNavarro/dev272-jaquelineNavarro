@@ -1,8 +1,7 @@
-import { Pressable, Text, View } from "react-native";
-import { router } from "expo-router";
+import type { Order } from "@/api/orders";
 import { styles } from "@/styles/indexStyles";
-import { Order } from "@/data/orders";
-
+import { router } from "expo-router";
+import { Pressable, Text, View } from "react-native";
 
 export default function OrderRow({ order }: { order: Order }) {
   return (
@@ -35,7 +34,7 @@ export default function OrderRow({ order }: { order: Order }) {
     </Pressable>
   );
 
-    function getStatusColor(status: string) {
+  function getStatusColor(status: string) {
     if (status === "Ready") {
       return "#166534";
     }

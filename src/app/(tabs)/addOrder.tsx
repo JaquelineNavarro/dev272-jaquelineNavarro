@@ -1,14 +1,35 @@
 import { styles } from "@/styles/indexStyles";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
+import {
+  Pressable,
+  Text,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  Alert,
+} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { orderValidation } from "@/utilities/orderValidations";
-import { useOrders } from "@/context/orderContext";
 import { router } from "expo-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createOrder } from "@/api/orders";
 
 export default function AddOrder() {
-  const { addOrder } = useOrders();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: createOrder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      router.back();
+    },
+    onError: (error) => {
+      Alert.alert("Could not save", error.message);
+    },
+  });
   const [dish, setDish] = useState("");
   const {
     control,
@@ -32,19 +53,18 @@ export default function AddOrder() {
     filling: string;
   }) {
     const newOrder = {
-      id: Date.now().toString(),
       customerName: data.customerName,
       dish: data.dish,
       quantity: data.quantity,
       filling: data.filling,
       status: "Pending",
     };
-    addOrder(newOrder);
-    router.navigate("/(tabs)");
+
+    mutation.mutate(newOrder);
   }
 
   return (
-  <KeyboardAvoidingView
+    <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
@@ -73,9 +93,7 @@ export default function AddOrder() {
         />
 
         {errors.customerName && (
-          <Text style={{ color: "red" }}>
-            {errors.customerName.message}
-          </Text>
+          <Text style={{ color: "red" }}>{errors.customerName.message}</Text>
         )}
 
         <Text style={styles.formLabel}>Select Dish:</Text>
@@ -119,9 +137,7 @@ export default function AddOrder() {
         />
 
         {errors.dish && (
-          <Text style={{ color: "red" }}>
-            {errors.dish.message}
-          </Text>
+          <Text style={{ color: "red" }}>{errors.dish.message}</Text>
         )}
 
         <Text style={styles.formLabel}>Quantity:</Text>
@@ -143,9 +159,7 @@ export default function AddOrder() {
         />
 
         {errors.quantity && (
-          <Text style={{ color: "red" }}>
-            {errors.quantity.message}
-          </Text>
+          <Text style={{ color: "red" }}>{errors.quantity.message}</Text>
         )}
 
         <Text style={styles.formLabel}>Filling:</Text>
@@ -167,16 +181,17 @@ export default function AddOrder() {
         />
 
         {errors.filling && (
-          <Text style={{ color: "red" }}>
-            {errors.filling.message}
-          </Text>
+          <Text style={{ color: "red" }}>{errors.filling.message}</Text>
         )}
 
         <Pressable
           style={styles.saveOrderBtn}
           onPress={handleSubmit(saveOrder)}
+          disabled={mutation.isPending}
         >
-          <Text style={styles.saveOrderBtnTxt}>Save Order</Text>
+          <Text style={styles.saveOrderBtnTxt}>
+            {mutation.isPending ? "Hold on, we're saving your order..." : "Save Order"}
+          </Text>
         </Pressable>
       </ScrollView>
     </KeyboardAvoidingView>
