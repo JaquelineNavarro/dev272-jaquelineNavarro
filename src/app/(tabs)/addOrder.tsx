@@ -1,21 +1,21 @@
+import { createOrder } from "@/api/orders";
 import { styles } from "@/styles/indexStyles";
-import { useState } from "react";
+import { orderValidation } from "@/utilities/orderValidations";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   Text,
   TextInput,
   View,
-  KeyboardAvoidingView,
-  ScrollView,
-  Platform,
-  Alert,
 } from "react-native";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { orderValidation } from "@/utilities/orderValidations";
-import { router } from "expo-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createOrder } from "@/api/orders";
 
 export default function AddOrder() {
   const queryClient = useQueryClient();
@@ -34,6 +34,7 @@ export default function AddOrder() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(orderValidation),
@@ -45,6 +46,14 @@ export default function AddOrder() {
       filling: "",
     },
   });
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        reset();
+      };
+    }, [reset]),
+  );
 
   function saveOrder(data: {
     customerName: string;
@@ -190,7 +199,9 @@ export default function AddOrder() {
           disabled={mutation.isPending}
         >
           <Text style={styles.saveOrderBtnTxt}>
-            {mutation.isPending ? "Hold on, we're saving your order..." : "Save Order"}
+            {mutation.isPending
+              ? "Hold on, we're saving your order..."
+              : "Save Order"}
           </Text>
         </Pressable>
       </ScrollView>
